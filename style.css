@@ -1,0 +1,40 @@
+/* Estilos personalizados para el prototipo */
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #F8FAFC;
+}
+.andina-pattern {
+  background-color: #0b2545;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.1) 10px, rgba(212, 175, 55, 0.1) 20px);
+}
+.scanner-laser {
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #10B981, transparent);
+  animation: laserScan 2s linear infinite;
+}
+@keyframes laserScan {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+/* Estilos para ocultar/mostrar pestañas */
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SITRE-COSITUC - Portal de Ventas (Vista Turista)</title>
+  <!-- Google Fonts para tipografía premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cop: {
+              DEFAULT: '#0B2545',
+              light: '#134074',
+              dark: '#05162B',
+              slate: '#1E3A8A'
+            },
+            andina: {
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              terracotta: '#C05C33',
+              stone: '#6B7280'
+            },
+            status: {
+              success: '#10B981',
+              danger: '#EF4444',
+              warning: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            serif: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 bg-slate-50">
+
+  <!-- CABECERA EXCLUSIVA DEL TURISTA (Sin opciones de administración ni garita) -->
+  <header class="andina-pattern text-white border-b-4 border-andina-gold shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+      
+      <!-- LOGO Y TÍTULO -->
+      <div class="flex items-center space-x-4">
+        <div class="bg-andina-gold p-2 rounded-lg text-cop shadow-md flex items-center justify-center">
+          <svg class="w-7 h-7" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M 35 15 L 45 15 L 45 25 L 55 25 L 55 15 L 65 15 L 65 35 L 75 35 L 75 45 L 85 45 L 85 55 L 75 55 L 75 65 L 65 65 L 65 85 L 55 85 L 55 75 L 45 75 L 45 85 L 35 85 L 35 65 L 25 65 L 25 55 L 15 55 L 15 45 L 25 45 L 25 35 L 35 35 Z" />
+            <circle cx="50" cy="50" r="10" fill="#0B2545" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-serif font-extrabold text-xl tracking-wider text-andina-gold">SITRE-COSITUC</h1>
+          <p class="text-[10px] text-blue-200 uppercase tracking-widest font-semibold">Boleto Turístico Integrado Cusco</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2 bg-emerald-600/90 py-1 px-3 rounded-full text-[10px] border border-emerald-500/50">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="font-bold">TIENDA ONLINE OFICIAL</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL (OPTIMIZADO PARA MÓVILES) -->
+  <main class="flex-grow max-w-3xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+    
+    <div class="text-center mb-6">
+      <span class="text-[10px] font-bold text-cop bg-blue-100 py-1 px-2.5 rounded-full uppercase tracking-wider">Boleto Turístico del Cusco (BTC)</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-cop mt-2">Portal de Compra en Línea</h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-1">Adquiera sus boletos nominativos de forma segura con validación inmediata.</p>
+    </div>
+
+    <!-- INDICADOR DE PASOS -->
+    <div class="flex items-center justify-center space-x-4 mb-6">
+      <div id="step-dot-1" class="w-8 h-8 rounded-full flex items-center justify-center bg-cop text-white text-xs font-bold border-2 border-cop">1</div>
+      <div class="h-1 bg-slate-300 w-8 rounded"></div>
+      <div id="step-dot-2" class="w-8 h-8 rounded-full flex items-center justify-center bg-white text-slate-400 text-xs font-bold border-2 border-slate-300">2</div>
+      <div class="h-1 bg-slate-300 w-8 rounded"></div>
+      <div id="step-dot-3" class="w-8 h-8 rounded-full flex items-center justify-center bg-white text-slate-400 text-xs font-bold border-2 border-slate-300">3</div>
+    </div>
+
+    <!-- CONTENEDOR DE PANTALLAS -->
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden">
+      
+      <!-- PANTALLA A: SELECCIÓN -->
+      <div id="portal-screen-a" class="p-5 sm:p-8">
+        <h3 class="text-lg font-bold text-cop mb-4 border-b pb-2 flex items-center space-x-2">
+          <i class="fa-solid fa-ticket text-andina-gold"></i>
+          <span>Selección de Boleto y Datos del Turista</span>
+        </h3>
+        
+        <form id="form-compra" onsubmit="event.preventDefault(); procederAPago();" class="space-y-4">
+          <div>
+            <label for="select-sitio" class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">Destino o Circuito Turístico</label>
+            <div class="relative">
+              <select id="select-sitio" required class="block w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 focus:border-cop focus:ring-1 focus:ring-cop outline-none appearance-none cursor-pointer">
+                <option value="" disabled selected>Elija un destino turístico...</option>
+                <option value="Sacsayhuamán">Circuito I: Sacsayhuamán, Q'enqo, Puka Pukara, Tambomachay — S/. 130.00</option>
+                <option value="Ollantaytambo">Circuito II: Ollantaytambo, Písac, Chinchero, Moray — S/. 130.00</option>
+                <option value="Moray">Circuito III: Moray y Salineras de Maras — S/. 130.00</option>
+                <option value="Písac">Boleto Parcial Valle Sagrado: Písac y Ollantaytambo — S/. 130.00</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="input-nombre" class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">Nombre Completo del Turista</label>
+              <input type="text" id="input-nombre" required placeholder="Ej. Juan Quispe Mamani" class="block w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 focus:border-cop focus:ring-1 focus:ring-cop outline-none">
+            </div>
+            <div>
+              <label for="select-documento" class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">Identificación (Boleto Nominativo)</label>
+              <div class="flex space-x-2">
+                <select id="select-documento" class="w-1/3 rounded-xl border border-slate-300 bg-slate-50 px-2 py-3 text-sm text-slate-800 focus:border-cop focus:ring-1 focus:ring-cop outline-none cursor-pointer">
+                  <option value="DNI">DNI</option>
+                  <option value="Pasaporte">Pasaporte</option>
+                  <option value="CE">C.E.</option>
+                </select>
+                <input type="text" id="input-nro-doc" required placeholder="Número" class="w-2/3 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 focus:border-cop focus:ring-1 focus:ring-cop outline-none">
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start space-x-3 text-xs text-blue-850">
+            <i class="fa-solid fa-circle-info mt-0.5 text-base text-blue-700"></i>
+            <div>
+              <span class="font-bold">Nota de Seguridad:</span> Ingrese sus datos con cuidado. El personal de control de garitas verificará los datos de este boleto con su documento de identidad físico al ingresar a los parques.
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-cop hover:bg-cop-light text-white font-bold py-3.5 px-6 rounded-xl transition duration-250 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-blue-900/10 text-sm">
+            <span>Proceder al Pago</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- PANTALLA B: MODAL PAGO CULQI 3DS 2.0 -->
+      <div id="portal-screen-b" class="hidden p-5 sm:p-8 bg-slate-50">
+        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
+          
+          <div class="bg-emerald-600 text-white px-5 py-3.5 flex justify-between items-center">
+            <span class="font-bold text-lg font-serif">culqi</span>
+            <div class="text-[10px] flex items-center space-x-1 font-bold bg-emerald-500 px-2 py-0.5 rounded">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>3D Secure v2.0</span>
+            </div>
+          </div>
+
+          <div class="p-5 space-y-4">
+            <div class="text-center pb-3 border-b border-slate-100">
+              <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Total a Debitar</p>
+              <p class="text-2xl font-extrabold text-slate-800">S/. 130.00</p>
+              <p id="pago-sitio-resumen" class="text-xs text-indigo-700 font-bold mt-0.5">Destino: Sacsayhuamán</p>
+            </div>
+
+            <!-- Candado de seguridad 3DS -->
+            <div class="bg-indigo-50 border border-indigo-150 rounded-xl p-3 flex items-center space-x-2.5">
+              <i class="fa-solid fa-lock text-xl text-indigo-600"></i>
+              <div class="text-[11px] text-indigo-900">
+                <span class="font-bold">Verificación de Identidad Activa (3DS 2.0):</span> Se validará la autenticación con token SMS de su banco emisor de forma transparente.
+              </div>
+            </div>
+
+            <!-- Campos -->
+            <div class="space-y-3">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Correo para Envío del Boleto</label>
+                <input type="email" id="input-email" required value="turista@cusco-viajes.pe" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Número de Tarjeta</label>
+                <div class="relative">
+                  <input type="text" required placeholder="4000 1234 5678 9010" value="4557 8812 3099 4112" class="w-full border border-slate-300 rounded-lg pl-3 pr-10 py-2 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                  <i class="fa-brands fa-cc-visa absolute right-3 top-2.5 text-base text-blue-800"></i>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Vencimiento</label>
+                  <input type="text" required placeholder="MM/AA" value="12/29" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">CVV</label>
+                  <input type="password" required placeholder="123" value="982" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                </div>
+              </div>
+            </div>
+
+            <button type="button" onclick="confirmarPago()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition duration-150 flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-emerald-700/20 text-sm">
+              <i class="fa-solid fa-lock-open text-xs"></i>
+              <span>Confirmar Pago Seguro (S/. 130.00)</span>
+            </button>
+
+            <button type="button" onclick="volverPantallaA()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-2 px-3 rounded-lg text-xs transition duration-150 cursor-pointer">
+              <i class="fa-solid fa-arrow-left mr-1"></i> Cancelar y Volver
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANTALLA C: BOLETO EXITOSO -->
+      <div id="portal-screen-c" class="hidden p-5 sm:p-8 bg-slate-50/50">
+        <div class="max-w-md mx-auto">
+          
+          <div class="text-center mb-4">
+            <div class="inline-flex items-center justify-center w-14 h-14 bg-emerald-100 text-status-success rounded-full mb-2 border-4 border-white shadow-md">
+              <i class="fa-solid fa-circle-check text-2xl"></i>
+            </div>
+            <h4 class="text-xl font-extrabold text-cop">¡Compra Exitosa!</h4>
+            <p class="text-xs text-slate-500">Boleto oficial generado y enviado al correo.</p>
+            <p id="ticket-correo-envio" class="text-xs font-bold text-emerald-600 mt-0.5">turista@cusco-viajes.pe</p>
+          </div>
+
+          <!-- BOLETO TURÍSTICO -->
+          <div class="bg-white rounded-2xl border-2 border-dashed border-slate-350 overflow-hidden shadow-lg relative">
+            <div class="absolute left-0 top-0 bottom-0 w-2 bg-andina-gold"></div>
+            
+            <div class="p-5 pl-7">
+              <div class="flex justify-between items-start border-b border-slate-100 pb-3 mb-3">
+                <div>
+                  <h5 class="font-serif font-bold text-sm text-cop leading-none">BOLETO TURÍSTICO</h5>
+                  <span class="text-[9px] bg-indigo-100 text-indigo-850 font-bold px-1.5 py-0.5 rounded uppercase mt-1 inline-block">CIRC. INDIVIDUAL</span>
+                </div>
+                <div class="text-right">
+                  <span id="ticket-id" class="font-mono text-xs font-bold text-slate-500">TKT-20260702-8812</span>
+                  <p class="text-[9px] text-slate-400">COSITUC OFICIAL</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-y-3.5 gap-x-2 text-xs mb-4">
+                <div>
+                  <span class="text-slate-400 font-bold uppercase text-[9px] block">Turista</span>
+                  <span id="ticket-nombre" class="font-bold text-slate-800 block truncate">John Doe</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase text-[9px] block">Identificación</span>
+                  <span id="ticket-doc" class="font-bold text-slate-800 block">DNI: 45678912</span>
+                </div>
+                <div class="col-span-2">
+                  <span class="text-slate-400 font-bold uppercase text-[9px] block">Destino Autorizado</span>
+                  <span id="ticket-sitio" class="font-bold text-cop block text-sm">Sacsayhuamán</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase text-[9px] block">Fecha y Hora</span>
+                  <span id="ticket-timestamp" class="font-mono font-bold text-slate-650 block">18/06/2026 09:35:12</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-slate-400 font-bold uppercase text-[9px] block">Costo total</span>
+                  <span class="font-bold text-emerald-600 text-sm block">S/. 130.00</span>
+                </div>
+              </div>
+
+              <!-- Código QR SVG Autocontenido -->
+              <div class="border-t border-slate-100 pt-3 flex flex-col items-center justify-center space-y-2">
+                <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 shadow-inner">
+                  <svg class="w-28 h-28 text-slate-800" viewBox="0 0 100 100" fill="currentColor">
+                    <rect x="5" y="5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <rect x="9" y="9" width="12" height="12" fill="currentColor"/>
+                    <rect x="75" y="5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <rect x="79" y="9" width="12" height="12" fill="currentColor"/>
+                    <rect x="5" y="75" width="20" height="20" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <rect x="9" y="79" width="12" height="12" fill="currentColor"/>
+                    <rect x="30" y="5" width="10" height="5" />
+                    <rect x="45" y="5" width="5" height="15" />
+                    <rect x="55" y="5" width="15" height="5" />
+                    <rect x="30" y="15" width="5" height="5" />
+                    <rect x="40" y="15" width="15" height="10" />
+                    <rect x="5" y="30" width="5" height="15" />
+                    <rect x="15" y="35" width="10" height="5" />
+                    <rect x="30" y="30" width="15" height="5" />
+                    <rect x="50" y="30" width="5" height="5" />
+                    <rect x="60" y="25" width="10" height="15" />
+                    <rect x="75" y="30" width="20" height="5" />
+                    <rect x="85" y="15" width="5" height="10" />
+                    <rect x="35" y="45" width="20" height="5" />
+                    <rect x="60" y="45" width="5" height="10" />
+                    <rect x="70" y="40" width="15" height="15" />
+                    <rect x="5" y="55" width="10" height="5" />
+                    <rect x="20" y="50" width="5" height="15" />
+                    <rect x="30" y="55" width="10" height="15" />
+                    <rect x="45" y="55" width="10" height="5" />
+                    <rect x="60" y="60" width="15" height="5" />
+                    <rect x="80" y="60" width="15" height="10" />
+                    <rect x="30" y="75" width="5" height="20" />
+                    <rect x="40" y="80" width="15" height="5" />
+                    <rect x="45" y="90" width="15" height="5" />
+                    <rect x="65" y="75" width="5" height="10" />
+                    <rect x="75" y="75" width="10" height="5" />
+                    <rect x="75" y="85" width="20" height="5" />
+                    <rect x="85" y="90" width="10" height="5" />
+                  </svg>
+                </div>
+                <p class="text-[8px] font-mono text-slate-400 text-center uppercase tracking-wider">
+                  SITRE SECURE VERIFIED QR v2.0
+                </p>
+              </div>
+            </div>
+
+            <!-- Recortes -->
+            <div class="absolute left-[-6px] top-1/2 -translate-y-1/2 w-3 h-6 bg-slate-50 border-r border-slate-350 rounded-r-full"></div>
+            <div class="absolute right-[-6px] top-1/2 -translate-y-1/2 w-3 h-6 bg-slate-50 border-l border-slate-350 rounded-l-full"></div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="mt-5 flex space-x-3">
+            <button type="button" onclick="comprarOtro()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition duration-200 flex items-center justify-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Comprar Otro</span>
+            </button>
+            <button type="button" onclick="window.print()" class="w-1/2 bg-cop hover:bg-cop-light text-white font-bold py-2.5 px-4 rounded-xl text-xs transition duration-200 flex items-center justify-center space-x-1.5 cursor-pointer shadow-md shadow-blue-900/10">
+              <i class="fa-solid fa-print"></i>
+              <span>Imprimir</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="bg-cop text-slate-400 text-xs py-4 border-t border-blue-900/30">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="font-bold text-slate-300">COSITUC - Comité de Servicios Integrados Turístico Culturales del Cusco</p>
+      <p class="text-[10px] text-slate-500 mt-0.5">SITRE Portal Turista • Cusco, Perú</p>
+    </div>
+  </footer>
+
+  <!-- CONMUTADOR ENLACES DE DESARROLLO (SOLO PARA EVALUADORES/PRUEBAS) -->
+  <div class="hidden lg:flex fixed bottom-4 right-4 bg-slate-900/95 text-white p-3.5 rounded-2xl shadow-2xl border border-slate-700 text-xs items-center space-x-3 z-50">
+    <span class="font-bold text-andina-gold">Entornos SITRE:</span>
+    <a href="index.html" class="bg-andina-gold text-cop py-0.5 px-2 rounded font-bold">1. Portal</a>
+    <a href="garita.html" class="underline hover:text-indigo-300 font-medium">2. Garita</a>
+    <a href="gerente.html" class="underline hover:text-indigo-300 font-medium">3. Dashboard</a>
+  </div>
+
+  <!-- SCRIPT DE PÁGINA PORTAL -->
+  <script>
+    function procederAPago() {
+      const sitio = document.getElementById('select-sitio').value;
+      const nombre = document.getElementById('input-nombre').value;
+      const tipoDoc = document.getElementById('select-documento').value;
+      const nroDoc = document.getElementById('input-nro-doc').value;
+
+      if (!sitio || !nombre || !nroDoc) {
+        alert("Complete los datos requeridos.");
+        return;
+      }
+
+      ticketTemporal = {
+        sitio: sitio,
+        nombre: nombre,
+        documento: `${tipoDoc}: ${nroDoc}`,
+        email: "turista@cusco-viajes.pe",
+        id: "TKT-" + new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0') + "-" + Math.floor(1000 + Math.random() * 9000),
+        timestamp: obtenerFechaHoraActual()
+      };
+
+      document.getElementById('pago-sitio-resumen').innerText = "Destino: " + ticketTemporal.sitio;
+      document.getElementById('input-email').value = "turista@cusco-viajes.pe";
+
+      document.getElementById('portal-screen-a').classList.add('hidden');
+      document.getElementById('portal-screen-b').classList.remove('hidden');
+
+      document.getElementById('step-dot-1').className = "w-8 h-8 rounded-full flex items-center justify-center bg-slate-200 text-slate-500 text-xs font-bold border-2 border-slate-300";
+      document.getElementById('step-dot-2').className = "w-8 h-8 rounded-full flex items-center justify-center bg-cop text-white text-xs font-bold border-2 border-cop";
+    }
+
+    function confirmarPago() {
+      if (!ticketTemporal) return;
+
+      const email = document.getElementById('input-email').value || "turista@cusco-viajes.pe";
+      ticketTemporal.email = email;
+
+      // ACTUALIZAR ESTADO EN LOCALSTORAGE
+      let actualRecaudado = getRecaudado();
+      actualRecaudado += 130.00;
+      localStorage.setItem('sitre_recaudado', actualRecaudado.toFixed(2));
+
+      // Agregar transacción
+      let list = getTransacciones();
+      list.unshift({
+        timestamp: ticketTemporal.timestamp,
+        sitio: ticketTemporal.sitio,
+        ticketId: ticketTemporal.id,
+        estado: "APROBADO",
+        sincronizacion: "Starlink",
+        turista: ticketTemporal.nombre
+      });
+      localStorage.setItem('sitre_transacciones', JSON.stringify(list));
+
+      // Guardar último ticket vendido
+      localStorage.setItem('sitre_ultimo_ticket', JSON.stringify(ticketTemporal));
+
+      // Rellenar visualmente el ticket
+      document.getElementById('ticket-nombre').innerText = ticketTemporal.nombre;
+      document.getElementById('ticket-doc').innerText = ticketTemporal.documento;
+      document.getElementById('ticket-sitio').innerText = ticketTemporal.sitio;
+      document.getElementById('ticket-id').innerText = ticketTemporal.id;
+      document.getElementById('ticket-timestamp').innerText = ticketTemporal.timestamp;
+      document.getElementById('ticket-correo-envio').innerText = ticketTemporal.email;
+
+      document.getElementById('portal-screen-b').classList.add('hidden');
+      document.getElementById('portal-screen-c').classList.remove('hidden');
+
+      document.getElementById('step-dot-2').className = "w-8 h-8 rounded-full flex items-center justify-center bg-slate-200 text-slate-500 text-xs font-bold border-2 border-slate-300";
+      document.getElementById('step-dot-3').className = "w-8 h-8 rounded-full flex items-center justify-center bg-cop text-white text-xs font-bold border-2 border-cop";
+    }
+
+    function volverPantallaA() {
+      document.getElementById('portal-screen-b').classList.add('hidden');
+      document.getElementById('portal-screen-a').classList.remove('hidden');
+      
+      document.getElementById('step-dot-2').className = "w-8 h-8 rounded-full flex items-center justify-center bg-white text-slate-400 text-xs font-bold border-2 border-slate-300";
+      document.getElementById('step-dot-1').className = "w-8 h-8 rounded-full flex items-center justify-center bg-cop text-white text-xs font-bold border-2 border-cop";
+    }
+
+    function comprarOtro() {
+      document.getElementById('form-compra').reset();
+      ticketTemporal = null;
+
+      document.getElementById('portal-screen-c').classList.add('hidden');
+      document.getElementById('portal-screen-a').classList.remove('hidden');
+
+      document.getElementById('step-dot-3').className = "w-8 h-8 rounded-full flex items-center justify-center bg-white text-slate-400 text-xs font-bold border-2 border-slate-300";
+      document.getElementById('step-dot-1').className = "w-8 h-8 rounded-full flex items-center justify-center bg-cop text-white text-xs font-bold border-2 border-cop";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SITRE-COSITUC - Módulo Garita (Tablet Industrial)</title>
+  <!-- Google Fonts para tipografía premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cop: {
+              DEFAULT: '#0B2545',
+              light: '#134074',
+              dark: '#05162B',
+              slate: '#1E3A8A'
+            },
+            andina: {
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              terracotta: '#C05C33',
+              stone: '#6B7280'
+            },
+            status: {
+              success: '#10B981',
+              danger: '#EF4444',
+              warning: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            serif: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col justify-center text-slate-800 bg-slate-200 p-4">
+
+  <!-- MARCO DE TABLETA ROBUSTA 10 PULGADAS HORIZONTAL -->
+  <div class="max-w-4xl w-full mx-auto bg-slate-900 rounded-3xl p-6 shadow-2xl border-8 border-slate-700 relative overflow-hidden">
+    
+    <!-- Sensores de la tableta -->
+    <div class="absolute top-2 left-4 w-3 h-3 rounded-full bg-slate-600 shadow-inner"></div>
+    <div class="absolute top-2 right-4 w-3 h-3 rounded-full bg-slate-600 shadow-inner"></div>
+    <div class="absolute bottom-2 left-4 w-3 h-3 rounded-full bg-slate-600 shadow-inner"></div>
+    <div class="absolute bottom-2 right-4 w-3 h-3 rounded-full bg-slate-600 shadow-inner"></div>
+    <div class="absolute top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center">
+      <div class="w-1.5 h-1.5 rounded-full bg-blue-900"></div>
+    </div>
+
+    <!-- PANTALLA OPERATIVA DE LA TABLETA (Solo interfaz de producción real) -->
+    <div class="bg-slate-100 rounded-xl overflow-hidden flex flex-col min-h-[500px]">
+      
+      <!-- 1. BANNER DE RESILIENCIA DE RED (Sin botones de simulación) -->
+      <div id="resilience-banner" class="bg-emerald-600 text-white px-4 py-3 flex items-center transition-colors duration-150">
+        <div class="flex items-center space-x-3">
+          <span id="network-indicator-dot" class="relative flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-white border border-emerald-600"></span>
+          </span>
+          <span id="network-status-text" class="text-sm font-bold uppercase tracking-wider">CONECTADO - STARLINK SATELITAL</span>
+        </div>
+      </div>
+
+      <!-- CONTENEDOR CENTRAL DE LA INTERFAZ DE TABLETA -->
+      <div class="flex-grow p-6 flex flex-col justify-between">
+        
+        <!-- PANTALLA PRINCIPAL: ESTADO A (CÁMARA/ESCÁNER ACTIVO) -->
+        <div id="garita-status-a" class="flex-grow flex flex-col md:flex-row gap-6 items-center justify-center">
+          
+          <!-- Visor Gris Oscuro con Retícula Láser -->
+          <div class="w-full md:w-1/2 bg-slate-800 rounded-2xl border-4 border-slate-600 aspect-video md:aspect-auto md:h-64 relative overflow-hidden shadow-inner flex flex-col items-center justify-center">
+            
+            <div class="absolute inset-4 border border-emerald-500/30 rounded flex items-center justify-center">
+              <div class="absolute w-8 h-8 border-t-2 border-l-2 border-emerald-400 top-0 left-0"></div>
+              <div class="absolute w-8 h-8 border-t-2 border-r-2 border-emerald-400 top-0 right-0"></div>
+              <div class="absolute w-8 h-8 border-b-2 border-l-2 border-emerald-400 bottom-0 left-0"></div>
+              <div class="absolute w-8 h-8 border-b-2 border-r-2 border-emerald-400 bottom-0 right-0"></div>
+            </div>
+
+            <div class="scanner-laser absolute left-4 right-4"></div>
+
+            <i class="fa-solid fa-qrcode text-6xl text-slate-600/70 mb-2"></i>
+            <span class="text-xs font-mono font-bold text-emerald-400 tracking-widest uppercase animate-pulse">LÁSER ACTIVO - CÁMARA DE CONTROL</span>
+          </div>
+
+          <!-- Panel de Instrucciones y Control de Producción -->
+          <div class="w-full md:w-1/2 flex flex-col justify-between space-y-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <h4 class="text-base font-bold text-cop mb-2 uppercase tracking-wide flex items-center space-x-2">
+                <i class="fa-solid fa-tablet text-indigo-600"></i>
+                <span>Control de Escaneo Garita</span>
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed font-semibold">
+                Punto de control de acceso para el operador. Sistema listo para leer códigos QR impresos o digitales.
+              </p>
+              <div class="mt-3.5 p-3.5 bg-blue-50/60 rounded-xl border border-blue-100 flex items-center space-x-2.5 text-xs text-blue-900 font-semibold">
+                <i class="fa-solid fa-circle-info text-blue-600 text-sm"></i>
+                <span>Acerque el boleto al lector óptico o mantenga la pantalla del móvil frente a la cámara.</span>
+              </div>
+            </div>
+
+            <!-- Tarjeta Resumen de Ingresos del Turno -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div class="space-y-1">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Estadísticas de Garita</span>
+                <span class="text-xs font-bold text-slate-700 block">Ingresos registrados en este turno</span>
+                <div id="metric-ingresos-turno" class="text-3xl font-extrabold text-cop">142</div>
+              </div>
+              <div class="bg-emerald-50 text-emerald-700 p-3.5 rounded-xl border border-emerald-100/60">
+                <i class="fa-solid fa-shoe-prints text-2xl"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PANTALLA B: EXPENDIO / ESCANEO EXITOSO (PANTALLA VERDE) -->
+        <div id="garita-status-exitoso" class="hidden flex-grow flex flex-col items-center justify-center p-6 bg-emerald-600 text-white rounded-2xl shadow-inner border border-emerald-500">
+          <div class="w-16 h-16 bg-white text-emerald-600 rounded-full flex items-center justify-center shadow-lg mb-3">
+            <i class="fa-solid fa-check text-3xl font-black"></i>
+          </div>
+          <h3 class="text-2xl font-extrabold tracking-wide uppercase mb-1">Boleto Validado</h3>
+          <span class="bg-white/20 text-white border border-white/30 text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-4">Acceso Aprobado</span>
+
+          <div class="bg-white/10 border border-white/20 rounded-2xl p-5 w-full max-w-md mb-6 grid grid-cols-2 gap-y-3 gap-x-2 text-xs">
+            <div>
+              <span class="text-emerald-200 text-[10px] font-bold uppercase block">Turista</span>
+              <span id="garita-success-nombre" class="font-extrabold text-sm block">John Doe</span>
+            </div>
+            <div>
+              <span class="text-emerald-200 text-[10px] font-bold uppercase block">Código Boleto</span>
+              <span id="garita-success-id" class="font-mono font-bold block">TKT-20260618-2450</span>
+            </div>
+            <div class="col-span-2 border-t border-white/10 pt-2.5">
+              <span class="text-emerald-200 text-[10px] font-bold uppercase block">Destino Autorizado</span>
+              <span id="garita-success-sitio" class="font-extrabold text-base block">Sacsayhuamán</span>
+            </div>
+          </div>
+
+          <button type="button" onclick="registrarIngreso()" class="w-full max-w-md bg-white hover:bg-slate-100 text-emerald-700 font-extrabold py-3 px-6 rounded-xl text-base transition duration-150 uppercase tracking-wider text-center shadow-md cursor-pointer flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-shoe-prints text-sm"></i>
+            <span>Registrar Ingreso</span>
+          </button>
+        </div>
+
+        <!-- PANTALLA C: ESCANEO DUPLICADO (PANTALLA ROJA) -->
+        <div id="garita-status-fraude" class="hidden flex-grow flex flex-col items-center justify-center p-6 bg-red-600 text-white rounded-2xl shadow-inner border border-red-500">
+          <div class="w-16 h-16 bg-white text-red-600 rounded-full flex items-center justify-center shadow-lg mb-3">
+            <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-extrabold tracking-wide uppercase mb-1">¡Alerta de Fraude!</h3>
+          <span class="bg-white/25 text-white border border-white/30 text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-5">Boleto Ya Utilizado o Falsificado</span>
+
+          <div class="bg-white/10 border border-white/20 rounded-2xl p-5 w-full max-w-md mb-6 text-center text-xs space-y-3">
+            <p class="font-bold text-sm">EL CÓDIGO QR PRESENTADO YA SE ENCUENTRA REGISTRADO EN EL SISTEMA O ES INVÁLIDO.</p>
+            <div class="bg-black/20 p-2.5 rounded-xl border border-white/10 font-mono">
+              <p>CÓDIGO DETECTADO: TKT-20260618-DUP99</p>
+              <p class="text-red-200 mt-0.5">Detección de duplicado local en base de datos</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="bloquearAcceso()" class="w-full max-w-md bg-white hover:bg-slate-100 text-red-700 font-extrabold py-3 px-6 rounded-xl text-base transition duration-150 uppercase tracking-wider text-center shadow-md cursor-pointer flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-ban text-sm"></i>
+            <span>Bloquear Acceso</span>
+          </button>
+        </div>
+
+        <!-- PANTALLA D: RETRASO DE SERVIDOR (PANTALLA ÁMBAR DE ERROR CR-04) -->
+        <div id="garita-status-retraso" class="hidden flex-grow flex flex-col items-center justify-center p-6 bg-amber-500 text-slate-900 rounded-2xl shadow-inner border border-amber-400">
+          <div class="w-16 h-16 bg-slate-900 text-amber-500 rounded-full flex items-center justify-center shadow-lg mb-3">
+            <i class="fa-solid fa-hourglass-empty text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-extrabold tracking-wide uppercase mb-1">Fallo de Comunicación</h3>
+          <span class="bg-slate-900 text-amber-400 text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-5">CR-04 FALLO CRÍTICO: TIEMPO DE RESPUESTA EXCEDIDO (2.5s)</span>
+
+          <div class="bg-white/25 border border-slate-900/10 rounded-2xl p-5 w-full max-w-md mb-6 text-center text-xs space-y-2">
+            <p class="font-bold text-sm">EL TIEMPO DE RESPUESTA DEL SERVIDOR DE VALIDACIÓN CENTRAL SUPERÓ EL SLA LÍMITE DE 2.0 SEGUNDOS.</p>
+            <p class="text-slate-850">El estado de la red se ha degradado. Cambie al modo Offline en la tableta para continuar el tránsito de turistas usando la caché local.</p>
+          </div>
+
+          <button type="button" onclick="restablecerEscaner()" class="w-full max-w-md bg-slate-900 hover:bg-slate-800 text-amber-400 font-extrabold py-3 px-6 rounded-xl text-base transition duration-150 uppercase tracking-wider text-center shadow-md cursor-pointer flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-rotate-left text-sm"></i>
+            <span>Restablecer Escáner</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Footer Informativo de la Tablet -->
+      <div class="bg-slate-800 text-slate-400 px-4 py-2 text-xs flex justify-between items-center font-mono">
+        <span>MÓDULO: GARITA-SACSAYHUAMAN-01</span>
+        <span>BATERÍA: 94% <i class="fa-solid fa-battery-three-quarters text-emerald-500"></i></span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONMUTADOR ENLACES DE DESARROLLO (SOLO PARA EVALUADORES/PRUEBAS) -->
+  <div class="hidden lg:flex fixed bottom-4 right-4 bg-slate-900/95 text-white p-3.5 rounded-2xl shadow-2xl border border-slate-700 text-xs items-center space-x-3 z-50">
+    <span class="font-bold text-andina-gold">Entornos SITRE:</span>
+    <a href="index.html" class="underline hover:text-indigo-300 font-medium">1. Portal</a>
+    <a href="garita.html" class="bg-andina-gold text-cop py-0.5 px-2 rounded font-bold">2. Garita</a>
+    <a href="gerente.html" class="underline hover:text-indigo-300 font-medium">3. Dashboard</a>
+  </div>
+
+  <!-- PANEL DE SIMULACIÓN DE CONTROL DE CALIDAD EXTERNO -->
+  <div class="hidden lg:block fixed bottom-4 left-4 z-50">
+    <div class="relative">
+      
+      <!-- Menú contextual de simulación -->
+      <div id="simulation-menu" class="hidden absolute bottom-14 left-0 w-80 bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 overflow-hidden text-xs">
+        <div class="bg-cop border-b border-slate-700 px-4 py-3 flex justify-between items-center">
+          <span class="font-bold text-andina-gold tracking-wide flex items-center space-x-2">
+            <i class="fa-solid fa-flask-vial text-sm"></i>
+            <span>Simulador Plan de Pruebas (QC)</span>
+          </span>
+          <button type="button" onclick="toggleSimMenu()" class="text-slate-400 hover:text-white">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+        <div class="p-3 space-y-1.5">
+          
+          <button onclick="simularEscaneoExitoso(); toggleSimMenu();" class="w-full text-left bg-slate-800 hover:bg-slate-700 hover:text-emerald-400 font-bold p-2.5 rounded-xl border border-slate-700/80 transition duration-150 flex items-center space-x-2.5 cursor-pointer">
+            <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
+            <span>Simular escaneo exitoso (APROBADO)</span>
+          </button>
+
+          <button onclick="simularEscaneoDuplicado(); toggleSimMenu();" class="w-full text-left bg-slate-800 hover:bg-slate-700 hover:text-red-400 font-bold p-2.5 rounded-xl border border-slate-700/80 transition duration-150 flex items-center space-x-2.5 cursor-pointer">
+            <i class="fa-solid fa-triangle-exclamation text-danger text-sm"></i>
+            <span>Simular ticket duplicado (FRAUDE)</span>
+          </button>
+
+          <button onclick="simularRetrasoServidor(); toggleSimMenu();" class="w-full text-left bg-slate-800 hover:bg-slate-700 hover:text-amber-400 font-bold p-2.5 rounded-xl border border-slate-700/80 transition duration-150 flex items-center space-x-2.5 cursor-pointer">
+            <i class="fa-solid fa-circle-pause text-warning text-sm"></i>
+            <span>Simular retraso central (CR-04 FALLO)</span>
+          </button>
+
+          <button onclick="toggleNetwork();" class="w-full text-left bg-slate-800 hover:bg-slate-700 hover:text-blue-400 font-bold p-2.5 rounded-xl border border-slate-700/80 transition duration-150 flex items-center justify-between cursor-pointer">
+            <span class="flex items-center space-x-2.5">
+              <i class="fa-solid fa-circle-nodes text-indigo-400 text-sm"></i>
+              <span>Simular interrupción de red (offline)</span>
+            </span>
+            <span id="btn-network-sim-badge" class="bg-emerald-600 text-[9px] font-mono px-1.5 py-0.5 rounded text-white uppercase">ONLINE</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Botón Gatillo Principal -->
+      <button type="button" onclick="toggleSimMenu()" class="bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 px-4.5 rounded-2xl shadow-2xl border border-slate-700 text-xs flex items-center space-x-2 transition duration-150 hover:-translate-y-0.5 cursor-pointer">
+        <i class="fa-solid fa-flask-vial text-andina-gold text-sm animate-pulse"></i>
+        <span>Panel de simulación de control de calidad</span>
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    let redStarlink = true;
+    let tempTicketValido = null;
+    let ingresosTurno = 142;
+
+    // Inicializar ingresos de turno
+    window.onload = function() {
+      document.getElementById('metric-ingresos-turno').innerText = ingresosTurno;
+    };
+
+    // Toggle del Menú Simulación
+    function toggleSimMenu() {
+      const menu = document.getElementById('simulation-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Red
+    function toggleNetwork() {
+      redStarlink = !redStarlink;
+      const banner = document.getElementById('resilience-banner');
+      const text = document.getElementById('network-status-text');
+      const dot = document.getElementById('network-indicator-dot');
+      const badge = document.getElementById('btn-network-sim-badge');
+
+      if (redStarlink) {
+        banner.className = "bg-emerald-600 text-white px-4 py-3 flex items-center transition-colors duration-150";
+        text.innerText = "CONECTADO - STARLINK SATELITAL";
+        dot.innerHTML = `<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                         <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-white border border-emerald-600"></span>`;
+        if (badge) {
+          badge.innerText = "ONLINE";
+          badge.className = "bg-emerald-600 text-[9px] font-mono px-1.5 py-0.5 rounded text-white uppercase";
+        }
+      } else {
+        banner.className = "bg-warning text-slate-900 px-4 py-3 flex items-center transition-colors duration-150";
+        text.innerText = "MODO OFFLINE ACTIVO - CACHÉ LOCAL";
+        dot.innerHTML = `<span class="animate-pulse absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                         <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-slate-900 border border-amber-600"></span>`;
+        if (badge) {
+          badge.innerText = "OFFLINE";
+          badge.className = "bg-warning text-slate-900 text-[9px] font-mono px-1.5 py-0.5 rounded uppercase font-bold";
+        }
+      }
+    }
+
+    // Función auxiliar para mostrar pantallas de forma exclusiva (evita apilamiento)
+    function mostrarPantallaGarita(pantallaId) {
+      const pantallas = ['garita-status-a', 'garita-status-exitoso', 'garita-status-fraude', 'garita-status-retraso'];
+      pantallas.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.add('hidden');
+        }
+      });
+      const target = document.getElementById(pantallaId);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+    }
+
+    // Escaneo Exitoso
+    function simularEscaneoExitoso() {
+      const ticketValido = getUltimoTicket() || {
+        nombre: "John Doe",
+        id: "TKT-20260702-2450",
+        sitio: "Sacsayhuamán"
+      };
+
+      tempTicketValido = ticketValido;
+
+      document.getElementById('garita-success-nombre').innerText = ticketValido.nombre;
+      document.getElementById('garita-success-id').innerText = ticketValido.id;
+      document.getElementById('garita-success-sitio').innerText = ticketValido.sitio;
+
+      mostrarPantallaGarita('garita-status-exitoso');
+    }
+
+    function registrarIngreso() {
+      if (!tempTicketValido) return;
+
+      // Incrementar validados en localStorage
+      let validados = getValidados();
+      validados++;
+      localStorage.setItem('sitre_validados', validados.toString());
+
+      // Incrementar ingresos del turno actual
+      ingresosTurno++;
+      document.getElementById('metric-ingresos-turno').innerText = ingresosTurno;
+
+      // Agregar transacción
+      let list = getTransacciones();
+      list.unshift({
+        timestamp: obtenerFechaHoraActual(),
+        sitio: tempTicketValido.sitio,
+        ticketId: tempTicketValido.id,
+        estado: "APROBADO",
+        sincronizacion: redStarlink ? "Starlink" : "Sincronización sin conexión",
+        turista: tempTicketValido.nombre
+      });
+      localStorage.setItem('sitre_transacciones', JSON.stringify(list));
+
+      mostrarPantallaGarita('garita-status-a');
+    }
+
+    // Escaneo Fraude
+    function simularEscaneoDuplicado() {
+      mostrarPantallaGarita('garita-status-fraude');
+    }
+
+    function bloquearAcceso() {
+      let fraudes = getFraudes();
+      fraudes++;
+      localStorage.setItem('sitre_fraudes', fraudes.toString());
+
+      let list = getTransacciones();
+      list.unshift({
+        timestamp: obtenerFechaHoraActual(),
+        sitio: "Sacsayhuamán",
+        ticketId: "TKT-20260702-DUP99",
+        estado: "BLOQUEADO",
+        sincronizacion: redStarlink ? "Starlink" : "Sincronización sin conexión",
+        turista: "Intento de Fraude / Boleto Duplicado"
+      });
+      localStorage.setItem('sitre_transacciones', JSON.stringify(list));
+
+      mostrarPantallaGarita('garita-status-a');
+    }
+
+    // Retraso
+    function simularRetrasoServidor() {
+      const banner = document.getElementById('resilience-banner');
+      const text = document.getElementById('network-status-text');
+      const dot = document.getElementById('network-indicator-dot');
+
+      banner.className = "bg-amber-600 text-white px-4 py-3 flex items-center transition-colors duration-150";
+      text.innerText = "CONEXIÓN DEGRADADA - RESPUESTA LENTA (CR-04 DELAY)";
+      dot.innerHTML = `<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                       <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-600"></span>`;
+
+      mostrarPantallaGarita('garita-status-retraso');
+    }
+
+    function restablecerEscaner() {
+      const banner = document.getElementById('resilience-banner');
+      const text = document.getElementById('network-status-text');
+      const dot = document.getElementById('network-indicator-dot');
+
+      if (redStarlink) {
+        banner.className = "bg-emerald-600 text-white px-4 py-3 flex items-center transition-colors duration-150";
+        text.innerText = "CONECTADO - STARLINK SATELITAL";
+        dot.innerHTML = `<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                         <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-white border border-emerald-600"></span>`;
+      } else {
+        banner.className = "bg-warning text-slate-900 px-4 py-3 flex items-center transition-colors duration-150";
+        text.innerText = "MODO OFFLINE ACTIVO - CACHÉ LOCAL";
+        dot.innerHTML = `<span class="animate-pulse absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                         <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-slate-900 border border-amber-600"></span>`;
+      }
+
+      mostrarPantallaGarita('garita-status-a');
+    }
+  </script>
+</body>
+</html>
